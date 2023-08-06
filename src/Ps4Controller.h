@@ -8,6 +8,7 @@ class Ps4Controller
     public:
         void setGamepadProperties(GamepadPtr gamepadProperties);
         void update();
+
         bool dPadUpClick();
         bool dPadDownClick();
         bool dPadLeftClick();
@@ -20,6 +21,19 @@ class Ps4Controller
         bool l3ButtonClick();
         bool r1ButtonClick();
         bool r3ButtonClick();
+
+        bool dPadUpHold();
+        bool dPadDownHold();
+        bool dPadLeftHold();
+        bool dPadRightHold();
+        bool croossButtonHold();
+        bool squareButtonHold();
+        bool triangleButtonHold();
+        bool circleButtonHold();
+        bool l1ButtonHold();
+        bool l3ButtonHold();
+        bool r1ButtonHold();
+        bool r3ButtonHold();
     private:
         GamepadPtr gamepadProperties;
 
@@ -64,6 +78,60 @@ class Ps4Controller
             },
         };
         bool buttonClics[2][8] = {
+            {
+                false, // d-pad up
+                false, // d-pad down
+                false, // d-pad left
+                false  // d-pad right
+            },
+            {
+                false, // cross
+                false, // square
+                false, // triangle
+                false, // circle
+                false, // L1
+                false, // L3
+                false, // R1
+                false  // R3
+            },
+        };
+        bool buttonHoldFlags[2][8] = {
+            {
+                false, // d-pad up
+                false, // d-pad down
+                false, // d-pad left
+                false  // d-pad right
+            },
+            {
+                false, // cross
+                false, // square
+                false, // triangle
+                false, // circle
+                false, // L1
+                false, // L3
+                false, // R1
+                false  // R3
+            },
+        };
+        uint32_t buttonsHoldTimeout[2][8] = {
+            {
+                0, // d-pad up
+                0, // d-pad down
+                0, // d-pad left
+                0  // d-pad right
+            },
+            {
+                0, // cross
+                0, // square
+                0, // triangle
+                0, // circle
+                0, // L1
+                0, // L3
+                0, // R1
+                0  // R3
+            },
+        };
+        bool buttonHolds[2][8] = {
             {
                 false, // d-pad up
                 false, // d-pad down

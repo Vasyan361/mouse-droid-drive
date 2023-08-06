@@ -167,6 +167,67 @@ bool Ps4Controller::r3ButtonClick()
     return false;
 }
 
+bool Ps4Controller::dPadUpHold()
+{
+    return buttonHolds[D_PAD][D_PAD_UP];
+}
+
+bool Ps4Controller::dPadDownHold()
+{
+    return buttonHolds[D_PAD][D_PAD_DOWN];
+}
+
+bool Ps4Controller::dPadLeftHold()
+{
+    return buttonHolds[D_PAD][D_PAD_LEFT];
+}
+
+bool Ps4Controller::dPadRightHold()
+{
+    return buttonHolds[D_PAD][D_PAD_RIGHT];
+}
+
+bool Ps4Controller::croossButtonHold()
+{
+    return buttonHolds[BUTTONS][CROSS];
+}
+
+bool Ps4Controller::squareButtonHold()
+{
+    return buttonHolds[BUTTONS][SQUARE];
+}
+
+bool Ps4Controller::triangleButtonHold()
+{
+    return buttonHolds[BUTTONS][TRIANGLE];
+}
+
+bool Ps4Controller::circleButtonHold()
+{
+    return buttonHolds[BUTTONS][CIRCLE];
+}
+
+bool Ps4Controller::l1ButtonHold()
+{
+    return buttonHolds[BUTTONS][L1];
+}
+
+bool Ps4Controller::l3ButtonHold()
+{
+    return buttonHolds[BUTTONS][L3];
+}
+
+bool Ps4Controller::r1ButtonHold()
+{
+    return buttonHolds[BUTTONS][R1];
+}
+
+bool Ps4Controller::r3ButtonHold()
+{
+    return buttonHolds[BUTTONS][R3];
+}
+
+
 
 void  Ps4Controller::tick(uint8_t buttonType)
 {
@@ -174,12 +235,24 @@ void  Ps4Controller::tick(uint8_t buttonType)
     
     for (uint8_t i = 0; i < (sizeof(buttonCodes[buttonType]) / sizeof(buttonCodes[0][0])); i++) {
         if (receivedValue == buttonCodes[buttonType][i] && !buttonFlags[buttonType][i]) {
+            buttonsHoldTimeout[buttonType][i] = millis();
+            
             buttonFlags[buttonType][i] = true;
             buttonClics[buttonType][i] = true;
         }
+
         if (receivedValue != buttonCodes[buttonType][i] && buttonFlags[buttonType][i]) {
             buttonFlags[buttonType][i] = false;
             buttonClics[buttonType][i] = false;
+            buttonHoldFlags[buttonType][i] = false;
+            buttonHolds[buttonType][i] = false;
+        }
+
+        if (receivedValue == buttonCodes[buttonType][i] && !buttonHoldFlags[buttonType][i] && (millis() - buttonsHoldTimeout[buttonType][i] >= 500)) {
+            buttonsHoldTimeout[buttonType][i] = millis();
+
+            buttonHoldFlags[buttonType][i] = true;
+            buttonHolds[buttonType][i] = true;
         }
     }
 }
