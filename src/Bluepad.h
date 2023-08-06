@@ -5,6 +5,8 @@ GamepadPtr myGamepads[1];
 
 Ps4Controller controller;
 
+uint32_t timer;
+
 void onConnectedGamepad(GamepadPtr gp) {
     if (myGamepads[0] == nullptr) {
         GamepadProperties properties = gp->getProperties();
@@ -23,17 +25,13 @@ void bluepadInit() {
 }
 
 void bluepadUpdate() {
-    BP32.update();
+    if (millis() - timer > 20) {
+        timer = millis();
 
-    controller.setGamepadProperties(myGamepads[0]);
-    controller.update();
+        BP32.update();
 
-    // The main loop must have some kind of "yield to lower priority task" event.
-    // Otherwise the watchdog will get triggered.
-    // If your main loop doesn't have one, just add a simple `vTaskDelay(1)`.
-    // Detailed info here:
-    // https://stackoverflow.com/questions/66278271/task-watchdog-got-triggered-the-tasks-did-not-reset-the-watchdog-in-time
-
-    vTaskDelay(350);
-    // delay(150);
+        controller.setGamepadProperties(myGamepads[0]);
+        controller.update();
+    }
+    
 }

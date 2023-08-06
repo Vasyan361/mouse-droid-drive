@@ -9,26 +9,177 @@ void Ps4Controller::setGamepadProperties(GamepadPtr gamepadProperties)
 void Ps4Controller::update()
 {
   if (gamepadProperties && gamepadProperties->isConnected()) {
-      // Serial.printf(
-      //     "idx=%d, dpad: 0x%02x, buttons: 0x%04x, axis L: %4d, %4d, axis R: "
-      //     "%4d, %4d, brake: %4d, throttle: %4d, misc: 0x%02x, gyro x:%6d y:%6d "
-      //     "z:%6d, accel x:%6d y:%6d z:%6d\n",
-      //     0,                        // Gamepad Index
-      //     gamepadProperties->dpad(),        // DPAD
-      //     gamepadProperties->buttons(),     // bitmask of pressed buttons
-      //     gamepadProperties->axisX(),       // (-511 - 512) left X Axis
-      //     gamepadProperties->axisY(),       // (-511 - 512) left Y axis
-      //     gamepadProperties->axisRX(),      // (-511 - 512) right X axis
-      //     gamepadProperties->axisRY(),      // (-511 - 512) right Y axis
-      //     gamepadProperties->brake(),       // (0 - 1023): brake button
-      //     gamepadProperties->throttle(),    // (0 - 1023): throttle (AKA gas) button
-      //     gamepadProperties->miscButtons(), // bitmak of pressed "misc" buttons
-      //     gamepadProperties->gyroX(),       // Gyro X
-      //     gamepadProperties->gyroY(),       // Gyro Y
-      //     gamepadProperties->gyroZ(),       // Gyro Z
-      //     gamepadProperties->accelX(),      // Accelerometer X
-      //     gamepadProperties->accelY(),      // Accelerometer Y
-      //     gamepadProperties->accelZ()       // Accelerometer Z
-      // );
+    tick(D_PAD);
+    tick(BUTTONS);
+    //   Serial.printf(
+    //       "idx=%d, dpad: 0x%02x, buttons: 0x%04x, axis L: %4d, %4d, axis R: "
+    //       "%4d, %4d, brake: %4d, throttle: %4d, misc: 0x%02x, gyro x:%6d y:%6d "
+    //       "z:%6d, accel x:%6d y:%6d z:%6d\n",
+    //       0,                        // Gamepad Index
+    //       gamepadProperties->dpad(),        // DPAD
+    //       gamepadProperties->buttons(),     // bitmask of pressed buttons
+    //       gamepadProperties->axisX(),       // (-511 - 512) left X Axis
+    //       gamepadProperties->axisY(),       // (-511 - 512) left Y axis
+    //       gamepadProperties->axisRX(),      // (-511 - 512) right X axis
+    //       gamepadProperties->axisRY(),      // (-511 - 512) right Y axis
+    //       gamepadProperties->brake(),       // (0 - 1023): brake button
+    //       gamepadProperties->throttle(),    // (0 - 1023): throttle (AKA gas) button
+    //       gamepadProperties->miscButtons(), // bitmak of pressed "misc" buttons
+    //       gamepadProperties->gyroX(),       // Gyro X
+    //       gamepadProperties->gyroY(),       // Gyro Y
+    //       gamepadProperties->gyroZ(),       // Gyro Z
+    //       gamepadProperties->accelX(),      // Accelerometer X
+    //       gamepadProperties->accelY(),      // Accelerometer Y
+    //       gamepadProperties->accelZ()       // Accelerometer Z
+    //   );
+    }
+}
+
+bool Ps4Controller::dPadUpClick()
+{
+    if (buttonClics[D_PAD][D_PAD_UP]) {
+        buttonClics[D_PAD][D_PAD_UP] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::dPadDownClick()
+{
+    if (buttonClics[D_PAD][D_PAD_DOWN]) {
+        buttonClics[D_PAD][D_PAD_DOWN] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::dPadLeftClick()
+{
+    if (buttonClics[D_PAD][D_PAD_LEFT]) {
+        buttonClics[D_PAD][D_PAD_LEFT] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::dPadRightClick()
+{
+    if (buttonClics[D_PAD][D_PAD_RIGHT]) {
+        buttonClics[D_PAD][D_PAD_RIGHT] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::croossButtonClick()
+{
+    if (buttonClics[BUTTONS][CROSS]) {
+        buttonClics[BUTTONS][CROSS] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::squareButtonClick()
+{
+    if (buttonClics[BUTTONS][SQUARE]) {
+        buttonClics[BUTTONS][SQUARE] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::triangleButtonClick()
+{
+    if (buttonClics[BUTTONS][TRIANGLE]) {
+        buttonClics[BUTTONS][TRIANGLE] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::circleButtonClick()
+{
+    if (buttonClics[BUTTONS][CIRCLE]) {
+        buttonClics[BUTTONS][CIRCLE] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::l1ButtonClick()
+{
+    if (buttonClics[BUTTONS][L1]) {
+        buttonClics[BUTTONS][L1] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::l3ButtonClick()
+{
+    if (buttonClics[BUTTONS][L3]) {
+        buttonClics[BUTTONS][L3] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::r1ButtonClick()
+{
+    if (buttonClics[BUTTONS][R1]) {
+        buttonClics[BUTTONS][R1] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+bool Ps4Controller::r3ButtonClick()
+{
+    if (buttonClics[BUTTONS][R3]) {
+        buttonClics[BUTTONS][R3] = false;
+
+        return true;
+    }
+    
+    return false;
+}
+
+
+void  Ps4Controller::tick(uint8_t buttonType)
+{
+    uint16_t receivedValue = buttonType == D_PAD ? gamepadProperties->dpad() : gamepadProperties->buttons();
+    
+    for (uint8_t i = 0; i < (sizeof(buttonCodes[buttonType]) / sizeof(buttonCodes[0][0])); i++) {
+        if (receivedValue == buttonCodes[buttonType][i] && !buttonFlags[buttonType][i]) {
+            buttonFlags[buttonType][i] = true;
+            buttonClics[buttonType][i] = true;
+        }
+        if (receivedValue != buttonCodes[buttonType][i] && buttonFlags[buttonType][i]) {
+            buttonFlags[buttonType][i] = false;
+            buttonClics[buttonType][i] = false;
+        }
     }
 }
