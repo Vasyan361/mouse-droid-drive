@@ -16,13 +16,8 @@ void Sounds::init(Ps4Controller* controller)
     
         player.setTimeOut(500);
         player.volume(volumeLevel);
+        player.stop();
     }
-}
-
-void Sounds::handle()
-{
-    playSound();
-    volume();
 }
 
 void Sounds::loop()
