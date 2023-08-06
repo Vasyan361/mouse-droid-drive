@@ -34,6 +34,11 @@ class Ps4Controller
         bool l3ButtonHold();
         bool r1ButtonHold();
         bool r3ButtonHold();
+
+        int32_t getLeftX();
+        int32_t getLeftY();
+        int32_t getRightX();
+        int32_t getRightY();
     private:
         GamepadPtr gamepadProperties;
 

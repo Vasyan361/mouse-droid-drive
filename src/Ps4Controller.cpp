@@ -18,7 +18,7 @@ void Ps4Controller::update()
     //       0,                        // Gamepad Index
     //       gamepadProperties->dpad(),        // DPAD
     //       gamepadProperties->buttons(),     // bitmask of pressed buttons
-    //       gamepadProperties->axisX(),       // (-511 - 512) left X Axis
+        //   gamepadProperties->axisX(),       // (-511 - 512) left X Axis
     //       gamepadProperties->axisY(),       // (-511 - 512) left Y axis
     //       gamepadProperties->axisRX(),      // (-511 - 512) right X axis
     //       gamepadProperties->axisRY(),      // (-511 - 512) right Y axis
@@ -226,6 +226,27 @@ bool Ps4Controller::r3ButtonHold()
 {
     return buttonHolds[BUTTONS][R3];
 }
+
+int32_t Ps4Controller::getLeftX()
+{
+    return gamepadProperties->axisX();
+}
+
+int32_t Ps4Controller::getLeftY()
+{
+    return gamepadProperties->axisY();
+}
+
+int32_t Ps4Controller::getRightX()
+{
+    return gamepadProperties->axisRX();
+}
+
+int32_t Ps4Controller::getRightY()
+{
+    return gamepadProperties->axisRY();
+}
+
 
 
 
