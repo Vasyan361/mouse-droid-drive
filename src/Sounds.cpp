@@ -15,33 +15,54 @@ void Sounds::init(Ps4Controller* controller)
         Serial.println(F("DFPlayer Mini online."));
     
         player.setTimeOut(500);
-        player.volume(15);
+        player.volume(volumeLevel);
     }
+}
+
+void Sounds::handle()
+{
+    playSound();
+    volume();
+}
+
+void Sounds::loop()
+{
+    player.loop(16);
 }
 
 void Sounds::volume()
 {
+    if (volumeLevel < 30 && controller->l1ButtonHold() && controller->dPadUpClick())
+    {
+        volumeLevel++;
+        player.volume(volumeLevel);
+    }
+
+    if (volumeLevel > 0 && controller->l1ButtonHold() && controller->dPadDownClick())
+    {
+        volumeLevel--;
+        player.volume(volumeLevel);
+    }
 }
 
 void Sounds::playSound()
 {
-
-    if (controller->dPadDownClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadDownClick())
     {
         player.play(1);
     }
 
-    if (controller->dPadLeftClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadLeftClick())
     {
         player.play(2);
     }
 
-    if (controller->dPadUpClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadUpClick())
     {
         player.play(3);
     }
 
-    if (controller->dPadRightClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadRightClick())
     {
         player.play(4);
     }
@@ -75,9 +96,29 @@ void Sounds::playSound()
     {
         player.play(10);
     }
-}
 
-void Sounds::loop()
-{
-    player.loop(16);
+    if (controller->l1ButtonHold() && controller->dPadLeftClick())
+    {
+        player.play(11);
+    }
+
+    if (controller->l1ButtonHold() && controller->dPadRightClick())
+    {
+        player.play(12);
+    }
+
+    if (controller->r1ButtonHold() && controller->dPadDownClick())
+    {
+        player.play(13);
+    }
+
+    if (controller->r1ButtonHold() && controller->dPadLeftClick())
+    {
+        player.play(14);
+    }
+
+    if (controller->r1ButtonHold() && controller->dPadUpClick())
+    {
+        player.play(15);
+    }
 }
