@@ -17,31 +17,31 @@ Movement movement;
 Esc esc;
 #endif
 
-uint32_t timer;
-
 void setup()
 {
     Serial.begin(115200);
     sounds.init(&controller);
-    movement.init(&controller);
+    movement.init(&controller, &esc);
     BP32.setup(&onConnectedGamepad, &onDisconnectedGamepad);
 }
 
 void loop()
 {
-    if (millis() - timer > 20) {
-        timer = millis();
+    BP32.update();
 
-        BP32.update();
+    controller.setGamepadProperties(myGamepads[0]);
+    controller.update();
 
-        controller.setGamepadProperties(myGamepads[0]);
-        controller.update();
+    #ifndef LOOP_MUSIC
+    sounds.playSound();
+    #endif
+    sounds.volume();
 
-        #ifndef LOOP_MUSIC
-        sounds.playSound();
-        #endif
-        sounds.volume();
-    }
+    #ifdef ESC_DRIVE
+    movement.run(&esc);
+    #endif
+
+    vTaskDelay(1);
 }
 
 void onConnectedGamepad(GamepadPtr gp) {
@@ -51,10 +51,6 @@ void onConnectedGamepad(GamepadPtr gp) {
 
         #ifdef LOOP_MUSIC
         sounds.loop();
-        #endif
-
-        #ifdef ESC_DRIVE
-        movement.run(&esc);
         #endif
     }
 }

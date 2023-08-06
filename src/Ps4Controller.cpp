@@ -229,22 +229,42 @@ bool Ps4Controller::r3ButtonHold()
 
 int32_t Ps4Controller::getLeftX()
 {
-    return gamepadProperties->axisX();
+    if (gamepadProperties && gamepadProperties->isConnected())
+    {
+        return gamepadProperties->axisX();
+    }
+    
+    return 0;
 }
 
 int32_t Ps4Controller::getLeftY()
 {
-    return gamepadProperties->axisY();
+    if (gamepadProperties && gamepadProperties->isConnected())
+    {
+        return gamepadProperties->axisY();
+    }
+    
+    return 0;
 }
 
 int32_t Ps4Controller::getRightX()
 {
-    return gamepadProperties->axisRX();
+    if (gamepadProperties && gamepadProperties->isConnected())
+    {
+        return gamepadProperties->axisRX();
+    }
+    
+    return 0;
 }
 
 int32_t Ps4Controller::getRightY()
 {
-    return gamepadProperties->axisRY();
+    if (gamepadProperties && gamepadProperties->isConnected())
+    {
+        return gamepadProperties->axisRY();
+    }
+    
+    return 0;
 }
 
 
