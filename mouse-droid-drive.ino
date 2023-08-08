@@ -44,10 +44,10 @@ void loop()
     vTaskDelay(1);
 }
 
-void onConnectedGamepad(GamepadPtr gp) {
+void onConnectedGamepad(GamepadPtr gamepadProperties) {
     if (myGamepads[0] == nullptr) {
-        GamepadProperties properties = gp->getProperties();
-        myGamepads[0] = gp;
+        myGamepads[0] = gamepadProperties;
+        gamepadProperties->setColorLED(0, 255, 0);
 
         #ifdef LOOP_MUSIC
         sounds.loop();
