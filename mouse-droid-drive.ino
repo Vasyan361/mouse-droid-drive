@@ -6,22 +6,35 @@
 #include "src/Ps4Controller.h"
 #include "src/Sounds.h"
 #include "src/Movement.h"
+
+#ifdef ESC_DRIVE
 #include "src/DriveMotors/Esc.h"
+Esc esc;
+#endif
+
+#ifdef MX1508_DRIVE
+#include "src/DriveMotors/MX1508.h"
+MX1508 mx1508;
+#endif
+
 
 GamepadPtr myGamepads[1];
 Ps4Controller controller;
 Sounds sounds;
 Movement movement;
 
-#ifdef ESC_DRIVE
-Esc esc;
-#endif
-
 void setup()
 {
     Serial.begin(115200);
     sounds.init(&controller);
+    #ifdef ESC_DRIVE
     movement.init(&controller, &esc);
+    #endif
+
+    #ifdef MX1508_DRIVE
+    movement.init(&controller, &mx1508);
+    #endif
+    
     BP32.setup(&onConnectedGamepad, &onDisconnectedGamepad);
 }
 
@@ -41,13 +54,16 @@ void loop()
     movement.run(&esc);
     #endif
 
+    #ifdef MX1508_DRIVE
+    movement.run(&mx1508);
+    #endif
+
     vTaskDelay(1);
 }
 
 void onConnectedGamepad(GamepadPtr gamepadProperties) {
     if (myGamepads[0] == nullptr) {
         myGamepads[0] = gamepadProperties;
-        gamepadProperties->setColorLED(0, 255, 0);
 
         #ifdef LOOP_MUSIC
         sounds.loop();

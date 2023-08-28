@@ -17,15 +17,15 @@ void Movement::run(DriveMotorInterface* driveMotor)
 
 void Movement::moveServo(int32_t value)
 {
-    if (value > -50 && value < 50)
-    {
-        steeringServo.write(90);
-    } else {
+    // if (value > -50 && value < 50)
+    // {
+    //     steeringServo.write(90);
+    // } else {
 
         #ifdef REVERSE_SERVO
         steeringServo.write(constrain(map(-value, -512, 512, 0, 180), 0, 180));
         #else
         steeringServo.write(constrain(map(value, -512, 512, 0, 180), 0, 180));
         #endif
-    }
+    // }
 }

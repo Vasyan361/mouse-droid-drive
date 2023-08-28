@@ -2,16 +2,16 @@
 
 #include <Arduino.h>
 #include "DriveMotorInterface.h"
-#include <Servo.h>
 #include "../../Config.h"
+#include <GyverMotor.h>
 
-class Esc : public DriveMotorInterface
+
+class MX1508 : public DriveMotorInterface
 {
     public:
         void init() override
         {
-            esc.attach(ESC_PIN);
-            // esc.writeMicroseconds(1472);
+            motor.setMode(AUTO);
         }
 
         void run(int32_t value) override
@@ -21,12 +21,12 @@ class Esc : public DriveMotorInterface
             //     esc.writeMicroseconds(1472);
             // } else {
                 #ifdef REVERSE_DRIVE_MOTOR
-                esc.writeMicroseconds(constrain(map(-value, -512, 512, 800, 2300), 544, 2400));
+                motor.setSpeed(constrain(map(-value, -512, 512, -255, 255), -255, 255));
                 #else
-                esc.writeMicroseconds(constrain(map(value, -512, 512, 800, 2300), 544, 2400));
+                motor.setSpeed(constrain(map(value, -512, 512, -255, 255), -255, 255));
                 #endif
             // }
         }
     private:
-        Servo esc;
+        GMotor motor = GMotor(DRIVER2WIRE, IN_1_PIN, IN_2_PIN);
 };
