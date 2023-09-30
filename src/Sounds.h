@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <DFRobotDFPlayerMini.h>
 #include "Ps4Controller.h"
+#include "../Config.h"
 
 class Sounds
 {
@@ -15,4 +16,5 @@ class Sounds
         DFRobotDFPlayerMini player;
         Ps4Controller* controller;
         uint8_t volumeLevel = 15;
+        uint32_t loopTimer = 0;
 };

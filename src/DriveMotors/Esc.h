@@ -9,24 +9,27 @@ class Esc : public DriveMotorInterface
 {
     public:
         void init() override
-        {
+        { 
+            centerEscMicroseconds = MIN_ESC_MICROSECONDS + round((MAX_ESC_MICROSECONDS - MIN_ESC_MICROSECONDS) / 2);
             esc.attach(ESC_PIN);
-            // esc.writeMicroseconds(1472);
+            esc.writeMicroseconds(centerEscMicroseconds);
         }
 
         void run(int32_t value) override
         {
-            // if (value > -50 && value < 50)
-            // {
-            //     esc.writeMicroseconds(1472);
-            // } else {
-                #ifdef REVERSE_DRIVE_MOTOR
-                esc.writeMicroseconds(constrain(map(-value, -512, 512, 800, 2300), 544, 2400));
-                #else
-                esc.writeMicroseconds(constrain(map(value, -512, 512, 800, 2300), 544, 2400));
-                #endif
-            // }
+            #ifdef REVERSE_DRIVE_MOTOR
+                value = -value;
+            #endif
+
+
+            if (value > -STICK_DEADZONE && value < STICK_DEADZONE)
+            {
+                esc.writeMicroseconds(centerEscMicroseconds);
+            } else {
+                esc.writeMicroseconds(constrain(map(value, -512, 512, MIN_ESC_MICROSECONDS, MAX_ESC_MICROSECONDS), MIN_ESC_MICROSECONDS, MAX_ESC_MICROSECONDS));
+            }
         }
     private:
         Servo esc;
+        uint16_t centerEscMicroseconds;
 };

@@ -6,26 +6,52 @@ void Movement::init(Ps4Controller* controller, DriveMotorInterface* driveMotor)
     driveMotor->init();
 
     steeringServo.attach(SERVO_PIN);
-    steeringServo.write(90);
+    steeringServo.write(centerAngle);
 }
 
 void Movement::run(DriveMotorInterface* driveMotor)
 {
+    handleButtons();
     moveServo(controller->getRightX());
     driveMotor->run(controller->getLeftY());
 }
 
 void Movement::moveServo(int32_t value)
 {
-    // if (value > -50 && value < 50)
-    // {
-    //     steeringServo.write(90);
-    // } else {
+    #ifdef REVERSE_SERVO
+        value = -value;
+    #endif
 
-        #ifdef REVERSE_SERVO
-        steeringServo.write(constrain(map(-value, -512, 512, 0, 180), 0, 180));
-        #else
-        steeringServo.write(constrain(map(value, -512, 512, 0, 180), 0, 180));
-        #endif
-    // }
+    if (value > -STICK_DEADZONE && value < STICK_DEADZONE)
+    {
+        steeringServo.write(centerAngle);
+    } else if (value < -STICK_DEADZONE)
+    {
+        steeringServo.write(constrain(map(value, -512, 0, MIN_SERVO_ANGLE, centerAngle), MIN_SERVO_ANGLE, centerAngle));
+        
+    }  else if (value > STICK_DEADZONE)
+    {
+        steeringServo.write(constrain(map(value, 0, 512, centerAngle, MAX_SERVO_ANGLE), centerAngle, MAX_SERVO_ANGLE));
+    }
+}
+
+void Movement::handleButtons()
+{
+    if (centerAngle > 0  && controller->l1ButtonHold() && controller->dPadRightClick())
+    {
+        centerAngle--;
+    }
+
+    if (centerAngle < 180 && controller->l1ButtonHold() && controller->dPadLeftClick())
+    {
+        centerAngle++;
+    }
+}
+
+void Movement::readConfigFromEeprom()
+{
+}
+
+void Movement::saveConfigToEeprom()
+{
 }

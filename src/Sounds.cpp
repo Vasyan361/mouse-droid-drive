@@ -22,7 +22,14 @@ void Sounds::init(Ps4Controller* controller)
 
 void Sounds::loop()
 {
-    player.loop(16);
+    if (millis() - loopTimer > LOOP_MUSIC_TIMEOUT)
+    {
+        loopTimer = millis();
+
+        randomSeed(analogRead(RANDOM_SEED_PIN));
+        player.play(random(1, 14));
+    }
+    
 }
 
 void Sounds::volume()
@@ -112,8 +119,8 @@ void Sounds::playSound()
         player.play(14);
     }
 
-    if (controller->r1ButtonHold() && controller->dPadUpClick())
-    {
-        player.play(15);
-    }
+    // if (controller->r1ButtonHold() && controller->dPadUpClick())
+    // {
+    //     player.play(15);
+    // }
 }

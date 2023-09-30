@@ -28,11 +28,11 @@ void setup()
     Serial.begin(115200);
     sounds.init(&controller);
     #ifdef ESC_DRIVE
-    movement.init(&controller, &esc);
+        movement.init(&controller, &esc);
     #endif
 
     #ifdef MX1508_DRIVE
-    movement.init(&controller, &mx1508);
+        movement.init(&controller, &mx1508);
     #endif
     
     BP32.setup(&onConnectedGamepad, &onDisconnectedGamepad);
@@ -46,12 +46,16 @@ void loop()
     controller.update();
 
     #ifndef LOOP_MUSIC
-    sounds.playSound();
+        sounds.playSound();
+    #endif
+
+    #ifdef LOOP_MUSIC
+        sounds.loop();
     #endif
     sounds.volume();
 
     #ifdef ESC_DRIVE
-    movement.run(&esc);
+        movement.run(&esc);
     #endif
 
     #ifdef MX1508_DRIVE
@@ -64,10 +68,6 @@ void loop()
 void onConnectedGamepad(GamepadPtr gamepadProperties) {
     if (myGamepads[0] == nullptr) {
         myGamepads[0] = gamepadProperties;
-
-        #ifdef LOOP_MUSIC
-        sounds.loop();
-        #endif
     }
 }
 
