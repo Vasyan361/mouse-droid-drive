@@ -18,8 +18,8 @@
 // #define REVERSE_DRIVE_MOTOR
 
 // Servo configuration
-#define MIN_SERVO_ANGLE 5
-#define MAX_SERVO_ANGLE 175
+#define MIN_SERVO_ANGLE 0
+#define MAX_SERVO_ANGLE 180
 #define REVERSE_SERVO
 
 // Sounds configuration

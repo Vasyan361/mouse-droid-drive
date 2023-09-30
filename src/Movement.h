@@ -28,4 +28,5 @@ class Movement
         void readConfigFromEeprom();
         void saveConfigToEeprom();
         uint8_t centerAngle = 90;
+        movementConfig config;
 };

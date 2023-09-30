@@ -2,6 +2,7 @@
 
 void Movement::init(Ps4Controller* controller, DriveMotorInterface* driveMotor)
 {
+    readConfigFromEeprom();
     Movement::controller = controller;
     driveMotor->init();
 
@@ -37,21 +38,43 @@ void Movement::moveServo(int32_t value)
 
 void Movement::handleButtons()
 {
-    if (centerAngle > 0  && controller->l1ButtonHold() && controller->dPadRightClick())
+    if (centerAngle > MIN_SERVO_ANGLE  && controller->r1ButtonHold() && controller->dPadRightClick())
     {
         centerAngle--;
     }
 
-    if (centerAngle < 180 && controller->l1ButtonHold() && controller->dPadLeftClick())
+    if (centerAngle < MAX_SERVO_ANGLE && controller->r1ButtonHold() && controller->dPadLeftClick())
     {
         centerAngle++;
+    }
+
+    if (controller->r1ButtonHold() && controller->dPadUpClick())
+    {
+        saveConfigToEeprom();
     }
 }
 
 void Movement::readConfigFromEeprom()
 {
+    EEPROM.begin(256);
+
+    if (EEPROM.read(INIT_ADDRESS) != 'w') {
+        movementConfig initConfig;
+        config = initConfig;
+
+        EEPROM.put(CONFIG_ADDRESS, config);
+        EEPROM.write(INIT_ADDRESS, 'w');
+        EEPROM.commit();
+    } else {
+        EEPROM.get(CONFIG_ADDRESS, config);
+    }
+
+    centerAngle = config.centerAngle;
 }
 
 void Movement::saveConfigToEeprom()
 {
+    config.centerAngle = centerAngle;
+    EEPROM.put(CONFIG_ADDRESS, config);
+    EEPROM.commit();
 }

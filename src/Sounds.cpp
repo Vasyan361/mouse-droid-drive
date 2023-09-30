@@ -49,22 +49,22 @@ void Sounds::volume()
 
 void Sounds::playSound()
 {
-    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadDownClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && !controller->croossButtonHold() && controller->dPadDownClick())
     {
         player.play(1);
     }
 
-    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadLeftClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && !controller->croossButtonHold() && controller->dPadLeftClick())
     {
         player.play(2);
     }
 
-    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadUpClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && !controller->croossButtonHold() && controller->dPadUpClick())
     {
         player.play(3);
     }
 
-    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && controller->dPadRightClick())
+    if (!controller->l1ButtonHold() && !controller->r1ButtonHold() && !controller->croossButtonHold() && controller->dPadRightClick())
     {
         player.play(4);
     }
@@ -109,18 +109,13 @@ void Sounds::playSound()
         player.play(12);
     }
 
-    if (controller->r1ButtonHold() && controller->dPadDownClick())
+    if (controller->croossButtonHold() && controller->dPadDownClick())
     {
         player.play(13);
     }
 
-    if (controller->r1ButtonHold() && controller->dPadLeftClick())
+    if (controller->croossButtonHold() && controller->dPadUpClick())
     {
         player.play(14);
     }
-
-    // if (controller->r1ButtonHold() && controller->dPadUpClick())
-    // {
-    //     player.play(15);
-    // }
 }
