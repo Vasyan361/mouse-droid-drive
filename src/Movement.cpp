@@ -3,6 +3,7 @@
 void Movement::init(Ps4Controller* controller, DriveMotorInterface* driveMotor)
 {
     readConfigFromEeprom();
+    calculateLimits();
     Movement::controller = controller;
     driveMotor->init();
 
@@ -28,11 +29,11 @@ void Movement::moveServo(int32_t value)
         steeringServo.write(centerAngle);
     } else if (value < -STICK_DEADZONE)
     {
-        steeringServo.write(constrain(map(value, -512, 0, MIN_SERVO_ANGLE, centerAngle), MIN_SERVO_ANGLE, centerAngle));
+        steeringServo.write(constrain(map(value, -512, 0, minAngle, centerAngle), MIN_SERVO_ANGLE, centerAngle));
         
     }  else if (value > STICK_DEADZONE)
     {
-        steeringServo.write(constrain(map(value, 0, 512, centerAngle, MAX_SERVO_ANGLE), centerAngle, MAX_SERVO_ANGLE));
+        steeringServo.write(constrain(map(value, 0, 512, centerAngle, maxAngle), centerAngle, MAX_SERVO_ANGLE));
     }
 }
 
@@ -41,11 +42,13 @@ void Movement::handleButtons()
     if (centerAngle > MIN_SERVO_ANGLE  && controller->r1ButtonHold() && controller->dPadRightClick())
     {
         centerAngle--;
+        calculateLimits();
     }
 
     if (centerAngle < MAX_SERVO_ANGLE && controller->r1ButtonHold() && controller->dPadLeftClick())
     {
         centerAngle++;
+        calculateLimits();
     }
 
     if (controller->r1ButtonHold() && controller->dPadUpClick())
@@ -77,4 +80,10 @@ void Movement::saveConfigToEeprom()
     config.centerAngle = centerAngle;
     EEPROM.put(CONFIG_ADDRESS, config);
     EEPROM.commit();
+}
+
+void Movement::calculateLimits()
+{
+    minAngle = constrain(centerAngle - SERVO_ANGLE_LIMIT, MIN_SERVO_ANGLE, centerAngle);
+    maxAngle = constrain(centerAngle + SERVO_ANGLE_LIMIT, centerAngle, MAX_SERVO_ANGLE);
 }
