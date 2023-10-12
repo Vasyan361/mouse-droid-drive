@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <Bluepad32.h>
 
+#define D_PAD_COUNT 4
+#define BUTTONS_COUNT 8
+
 class Ps4Controller
 {
     public:
@@ -39,6 +42,8 @@ class Ps4Controller
         int32_t getLeftY();
         int32_t getRightX();
         int32_t getRightY();
+
+        void blinkGreen();
     private:
         GamepadPtr gamepadProperties;
 
@@ -141,7 +146,11 @@ class Ps4Controller
                 false, // d-pad up
                 false, // d-pad down
                 false, // d-pad left
-                false  // d-pad right
+                false,  // d-pad right
+                false,
+                false,
+                false,
+                false
             },
             {
                 false, // cross
@@ -155,5 +164,9 @@ class Ps4Controller
             },
         };
         void tick(uint8_t buttonType);
+        void setRedColorLed();
+        void setGreenColorLed();
+        void setBlueColorLed();
+        void changeColorLedIfAnyButtonHold();
 };
 

@@ -11,6 +11,7 @@ void Ps4Controller::update()
     if (gamepadProperties && gamepadProperties->isConnected()) {
         tick(D_PAD);
         tick(BUTTONS);
+        changeColorLedIfAnyButtonHold();
     }
 }
 
@@ -246,14 +247,16 @@ int32_t Ps4Controller::getRightY()
     return 0;
 }
 
-
-
+void Ps4Controller::blinkGreen()
+{}
 
 void  Ps4Controller::tick(uint8_t buttonType)
 {
     uint16_t receivedValue = buttonType == D_PAD ? gamepadProperties->dpad() : gamepadProperties->buttons();
+    uint8_t buttonsCount = buttonType == D_PAD ? D_PAD_COUNT : BUTTONS_COUNT;
     
-    for (uint8_t i = 0; i < (sizeof(buttonCodes[buttonType]) / sizeof(buttonCodes[0][0])); i++) {
+    for (uint8_t i = 0; i < buttonsCount; i++) {
+        // click
         if (receivedValue == buttonCodes[buttonType][i] && !buttonFlags[buttonType][i]) {
             buttonsHoldTimeout[buttonType][i] = millis();
             
@@ -261,6 +264,7 @@ void  Ps4Controller::tick(uint8_t buttonType)
             buttonClics[buttonType][i] = true;
         }
 
+        // release
         if (receivedValue != buttonCodes[buttonType][i] && buttonFlags[buttonType][i]) {
             buttonFlags[buttonType][i] = false;
             buttonClics[buttonType][i] = false;
@@ -268,6 +272,7 @@ void  Ps4Controller::tick(uint8_t buttonType)
             buttonHolds[buttonType][i] = false;
         }
 
+        //hold
         if (receivedValue == buttonCodes[buttonType][i] && !buttonHoldFlags[buttonType][i] && (millis() - buttonsHoldTimeout[buttonType][i] >= 500)) {
             buttonsHoldTimeout[buttonType][i] = millis();
 
@@ -275,4 +280,38 @@ void  Ps4Controller::tick(uint8_t buttonType)
             buttonHolds[buttonType][i] = true;
         }
     }
+}
+
+void Ps4Controller::setRedColorLed()
+{
+    gamepadProperties->setColorLED(255, 0, 0);
+}
+
+void Ps4Controller::setGreenColorLed()
+{
+    gamepadProperties->setColorLED(0, 255, 0);
+}
+
+void Ps4Controller::setBlueColorLed()
+{
+    gamepadProperties->setColorLED(0, 0, 255);
+}
+
+void Ps4Controller::changeColorLedIfAnyButtonHold()
+{
+    for (uint8_t i = 0; i < (sizeof(buttonHolds) / sizeof(buttonHolds[0])); i++) {
+        uint8_t buttonsCount = i == D_PAD ? D_PAD_COUNT : BUTTONS_COUNT;
+
+        for (uint8_t j = 0; j < buttonsCount; j++) {
+            if (buttonHolds[i][j])
+            {
+                // Serial.print(i); Serial.print(" "); Serial.print(j); Serial.print(" "); Serial.println(buttonHoldFlags[i][j]);
+                setGreenColorLed();
+                return;
+            }
+            
+        }
+    }
+
+    setBlueColorLed();
 }
