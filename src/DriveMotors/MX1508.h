@@ -25,7 +25,7 @@ class MX1508 : public DriveMotorInterface
             {
                 motor.setSpeed(0);
             } else {
-                motor.setSpeed(constrain(map(value, -512, 512, -255, 255), -255, 255));
+                motor.setSpeed(constrain(map(value, -512, 512, MIN_DRIVE_PWM, MAX_DRIVE_PWM), MIN_DRIVE_PWM, MAX_DRIVE_PWM));
             }
         }
     private:
