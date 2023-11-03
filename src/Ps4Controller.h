@@ -53,20 +53,20 @@ class Ps4Controller
 
         uint16_t buttonCodes[2][8] = {
             {
-                0x01, // d-pad up
-                0x02, // d-pad down
-                0x08, // d-pad left
-                0x04  // d-pad right
+                DPAD_UP, // d-pad up
+                DPAD_DOWN, // d-pad down
+                DPAD_LEFT, // d-pad left
+                DPAD_RIGHT  // d-pad right
             },
             {
-                0x0001, // cross
-                0x0004, // square
-                0x0008, // triangle
-                0x0002, // circle
-                0x0010, // L1
-                0x0100, // L3
-                0x0020, // R1
-                0x0200  // R3
+                BUTTON_A, // cross
+                BUTTON_X, // square
+                BUTTON_Y, // triangle
+                BUTTON_B, // circle
+                BUTTON_SHOULDER_L, // L1
+                BUTTON_THUMB_L, // L3
+                BUTTON_SHOULDER_R, // R1
+                BUTTON_THUMB_R  // R3
             }
         };
         bool buttonFlags[2][8] = {
