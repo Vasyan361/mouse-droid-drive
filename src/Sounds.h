@@ -16,5 +16,6 @@ class Sounds
         DFRobotDFPlayerMini player;
         Ps4Controller* controller;
         uint8_t volumeLevel = 15;
+        uint16_t loopTimeout = 0;
         uint32_t loopTimer = 0;
 };

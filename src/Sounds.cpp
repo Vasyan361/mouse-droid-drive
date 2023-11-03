@@ -22,11 +22,12 @@ void Sounds::init(Ps4Controller* controller)
 
 void Sounds::loop()
 {
-    if (millis() - loopTimer > LOOP_MUSIC_TIMEOUT)
+    if (millis() - loopTimer > loopTimeout)
     {
         loopTimer = millis();
 
         randomSeed(analogRead(RANDOM_SEED_PIN));
+        loopTimeout = random(LOOP_MUSIC_MIN_TIMEOUT, LOOP_MUSIC_MAX_TIMEOUT);
         player.play(random(1, 14));
     }
     
