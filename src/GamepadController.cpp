@@ -1,12 +1,12 @@
-#include "Ps4Controller.h"
+#include "GamepadController.h"
 
-void Ps4Controller::setGamepadProperties(GamepadPtr gamepadProperties)
+void GamepadController::setGamepadProperties(GamepadPtr gamepadProperties)
 {
-    Ps4Controller::gamepadProperties = gamepadProperties;
+    GamepadController::gamepadProperties = gamepadProperties;
 }
 
 
-void Ps4Controller::update()
+void GamepadController::update()
 {
     if (gamepadProperties && gamepadProperties->isConnected()) {
         tick(D_PAD);
@@ -15,7 +15,7 @@ void Ps4Controller::update()
     }
 }
 
-bool Ps4Controller::dPadUpClick()
+bool GamepadController::dPadUpClick()
 {
     if (buttonClics[D_PAD][D_PAD_UP]) {
         buttonClics[D_PAD][D_PAD_UP] = false;
@@ -26,7 +26,7 @@ bool Ps4Controller::dPadUpClick()
     return false;
 }
 
-bool Ps4Controller::dPadDownClick()
+bool GamepadController::dPadDownClick()
 {
     if (buttonClics[D_PAD][D_PAD_DOWN]) {
         buttonClics[D_PAD][D_PAD_DOWN] = false;
@@ -37,7 +37,7 @@ bool Ps4Controller::dPadDownClick()
     return false;
 }
 
-bool Ps4Controller::dPadLeftClick()
+bool GamepadController::dPadLeftClick()
 {
     if (buttonClics[D_PAD][D_PAD_LEFT]) {
         buttonClics[D_PAD][D_PAD_LEFT] = false;
@@ -48,7 +48,7 @@ bool Ps4Controller::dPadLeftClick()
     return false;
 }
 
-bool Ps4Controller::dPadRightClick()
+bool GamepadController::dPadRightClick()
 {
     if (buttonClics[D_PAD][D_PAD_RIGHT]) {
         buttonClics[D_PAD][D_PAD_RIGHT] = false;
@@ -59,7 +59,7 @@ bool Ps4Controller::dPadRightClick()
     return false;
 }
 
-bool Ps4Controller::croossButtonClick()
+bool GamepadController::croossButtonClick()
 {
     if (buttonClics[BUTTONS][CROSS]) {
         buttonClics[BUTTONS][CROSS] = false;
@@ -70,7 +70,7 @@ bool Ps4Controller::croossButtonClick()
     return false;
 }
 
-bool Ps4Controller::squareButtonClick()
+bool GamepadController::squareButtonClick()
 {
     if (buttonClics[BUTTONS][SQUARE]) {
         buttonClics[BUTTONS][SQUARE] = false;
@@ -81,7 +81,7 @@ bool Ps4Controller::squareButtonClick()
     return false;
 }
 
-bool Ps4Controller::triangleButtonClick()
+bool GamepadController::triangleButtonClick()
 {
     if (buttonClics[BUTTONS][TRIANGLE]) {
         buttonClics[BUTTONS][TRIANGLE] = false;
@@ -92,7 +92,7 @@ bool Ps4Controller::triangleButtonClick()
     return false;
 }
 
-bool Ps4Controller::circleButtonClick()
+bool GamepadController::circleButtonClick()
 {
     if (buttonClics[BUTTONS][CIRCLE]) {
         buttonClics[BUTTONS][CIRCLE] = false;
@@ -103,7 +103,7 @@ bool Ps4Controller::circleButtonClick()
     return false;
 }
 
-bool Ps4Controller::l1ButtonClick()
+bool GamepadController::l1ButtonClick()
 {
     if (buttonClics[BUTTONS][L1]) {
         buttonClics[BUTTONS][L1] = false;
@@ -114,7 +114,7 @@ bool Ps4Controller::l1ButtonClick()
     return false;
 }
 
-bool Ps4Controller::l3ButtonClick()
+bool GamepadController::l3ButtonClick()
 {
     if (buttonClics[BUTTONS][L3]) {
         buttonClics[BUTTONS][L3] = false;
@@ -125,7 +125,7 @@ bool Ps4Controller::l3ButtonClick()
     return false;
 }
 
-bool Ps4Controller::r1ButtonClick()
+bool GamepadController::r1ButtonClick()
 {
     if (buttonClics[BUTTONS][R1]) {
         buttonClics[BUTTONS][R1] = false;
@@ -136,7 +136,7 @@ bool Ps4Controller::r1ButtonClick()
     return false;
 }
 
-bool Ps4Controller::r3ButtonClick()
+bool GamepadController::r3ButtonClick()
 {
     if (buttonClics[BUTTONS][R3]) {
         buttonClics[BUTTONS][R3] = false;
@@ -147,67 +147,67 @@ bool Ps4Controller::r3ButtonClick()
     return false;
 }
 
-bool Ps4Controller::dPadUpHold()
+bool GamepadController::dPadUpHold()
 {
     return buttonHolds[D_PAD][D_PAD_UP];
 }
 
-bool Ps4Controller::dPadDownHold()
+bool GamepadController::dPadDownHold()
 {
     return buttonHolds[D_PAD][D_PAD_DOWN];
 }
 
-bool Ps4Controller::dPadLeftHold()
+bool GamepadController::dPadLeftHold()
 {
     return buttonHolds[D_PAD][D_PAD_LEFT];
 }
 
-bool Ps4Controller::dPadRightHold()
+bool GamepadController::dPadRightHold()
 {
     return buttonHolds[D_PAD][D_PAD_RIGHT];
 }
 
-bool Ps4Controller::croossButtonHold()
+bool GamepadController::croossButtonHold()
 {
     return buttonHolds[BUTTONS][CROSS];
 }
 
-bool Ps4Controller::squareButtonHold()
+bool GamepadController::squareButtonHold()
 {
     return buttonHolds[BUTTONS][SQUARE];
 }
 
-bool Ps4Controller::triangleButtonHold()
+bool GamepadController::triangleButtonHold()
 {
     return buttonHolds[BUTTONS][TRIANGLE];
 }
 
-bool Ps4Controller::circleButtonHold()
+bool GamepadController::circleButtonHold()
 {
     return buttonHolds[BUTTONS][CIRCLE];
 }
 
-bool Ps4Controller::l1ButtonHold()
+bool GamepadController::l1ButtonHold()
 {
     return buttonHolds[BUTTONS][L1];
 }
 
-bool Ps4Controller::l3ButtonHold()
+bool GamepadController::l3ButtonHold()
 {
     return buttonHolds[BUTTONS][L3];
 }
 
-bool Ps4Controller::r1ButtonHold()
+bool GamepadController::r1ButtonHold()
 {
     return buttonHolds[BUTTONS][R1];
 }
 
-bool Ps4Controller::r3ButtonHold()
+bool GamepadController::r3ButtonHold()
 {
     return buttonHolds[BUTTONS][R3];
 }
 
-int32_t Ps4Controller::getLeftX()
+int32_t GamepadController::getLeftX()
 {
     if (gamepadProperties && gamepadProperties->isConnected())
     {
@@ -217,7 +217,7 @@ int32_t Ps4Controller::getLeftX()
     return 0;
 }
 
-int32_t Ps4Controller::getLeftY()
+int32_t GamepadController::getLeftY()
 {
     if (gamepadProperties && gamepadProperties->isConnected())
     {
@@ -227,7 +227,7 @@ int32_t Ps4Controller::getLeftY()
     return 0;
 }
 
-int32_t Ps4Controller::getRightX()
+int32_t GamepadController::getRightX()
 {
     if (gamepadProperties && gamepadProperties->isConnected())
     {
@@ -237,7 +237,7 @@ int32_t Ps4Controller::getRightX()
     return 0;
 }
 
-int32_t Ps4Controller::getRightY()
+int32_t GamepadController::getRightY()
 {
     if (gamepadProperties && gamepadProperties->isConnected())
     {
@@ -247,10 +247,10 @@ int32_t Ps4Controller::getRightY()
     return 0;
 }
 
-void Ps4Controller::blinkGreen()
+void GamepadController::blinkGreen()
 {}
 
-void  Ps4Controller::tick(uint8_t buttonType)
+void  GamepadController::tick(uint8_t buttonType)
 {
     uint16_t receivedValue = buttonType == D_PAD ? gamepadProperties->dpad() : gamepadProperties->buttons();
     uint8_t buttonsCount = buttonType == D_PAD ? D_PAD_COUNT : BUTTONS_COUNT;
@@ -282,22 +282,22 @@ void  Ps4Controller::tick(uint8_t buttonType)
     }
 }
 
-void Ps4Controller::setRedColorLed()
+void GamepadController::setRedColorLed()
 {
     gamepadProperties->setColorLED(255, 0, 0);
 }
 
-void Ps4Controller::setGreenColorLed()
+void GamepadController::setGreenColorLed()
 {
     gamepadProperties->setColorLED(0, 255, 0);
 }
 
-void Ps4Controller::setBlueColorLed()
+void GamepadController::setBlueColorLed()
 {
     gamepadProperties->setColorLED(0, 0, 255);
 }
 
-void Ps4Controller::changeColorLedIfAnyButtonHold()
+void GamepadController::changeColorLedIfAnyButtonHold()
 {
     for (uint8_t i = 0; i < (sizeof(buttonHolds) / sizeof(buttonHolds[0])); i++) {
         uint8_t buttonsCount = i == D_PAD ? D_PAD_COUNT : BUTTONS_COUNT;

@@ -2,19 +2,19 @@
 
 #include <Arduino.h>
 #include <DFRobotDFPlayerMini.h>
-#include "Ps4Controller.h"
+#include "GamepadController.h"
 #include "../Config.h"
 
 class Sounds
 {
     public:
-        void init(Ps4Controller* controller);
+        void init(GamepadController* controller);
         void loop();
         void volume();
         void playSound();
     private:
         DFRobotDFPlayerMini player;
-        Ps4Controller* controller;
+        GamepadController* controller;
         uint8_t volumeLevel = 15;
         uint16_t loopTimeout = 0;
         uint32_t loopTimer = 0;

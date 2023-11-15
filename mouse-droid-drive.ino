@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include "Config.h"
 #include <Bluepad32.h>
-#include "src/Ps4Controller.h"
+#include "src/GamepadController.h"
 #include "src/Sounds.h"
 #include "src/Movement.h"
 
@@ -19,7 +19,7 @@ MX1508 mx1508;
 
 
 GamepadPtr myGamepads[1];
-Ps4Controller controller;
+GamepadController controller;
 Sounds sounds;
 Movement movement;
 

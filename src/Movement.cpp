@@ -1,6 +1,6 @@
 #include "Movement.h"
 
-void Movement::init(Ps4Controller* controller, DriveMotorInterface* driveMotor)
+void Movement::init(GamepadController* controller, DriveMotorInterface* driveMotor)
 {
     readConfigFromEeprom();
     calculateLimits();

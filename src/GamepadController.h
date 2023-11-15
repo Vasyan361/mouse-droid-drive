@@ -6,7 +6,7 @@
 #define D_PAD_COUNT 4
 #define BUTTONS_COUNT 8
 
-class Ps4Controller
+class GamepadController
 {
     public:
         void setGamepadProperties(GamepadPtr gamepadProperties);

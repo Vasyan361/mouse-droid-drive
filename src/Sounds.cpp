@@ -1,6 +1,6 @@
 #include "Sounds.h"
 
-void Sounds::init(Ps4Controller* controller)
+void Sounds::init(GamepadController* controller)
 {
     Sounds::controller = controller;
     Serial2.begin(9600);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include "Ps4Controller.h"
+#include "GamepadController.h"
 #include <Servo.h>
 #include "DriveMotors/DriveMotorInterface.h"
 #include "../Config.h"
@@ -20,10 +20,10 @@ struct movementConfig
 class Movement
 {
     public:
-        void init(Ps4Controller* controller, DriveMotorInterface* driveMotor);
+        void init(GamepadController* controller, DriveMotorInterface* driveMotor);
         void run(DriveMotorInterface* driveMotor);
     private:
-        Ps4Controller* controller;
+        GamepadController* controller;
         Servo steeringServo;
         void moveServo(int32_t value);
         void handleButtons();
