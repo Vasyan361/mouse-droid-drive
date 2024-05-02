@@ -59,7 +59,7 @@ void loop()
     #endif
 
     #ifdef MX1508_DRIVE
-    movement.run(&mx1508);
+        movement.run(&mx1508);
     #endif
 
     vTaskDelay(1);
