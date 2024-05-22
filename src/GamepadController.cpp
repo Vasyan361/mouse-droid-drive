@@ -1,13 +1,29 @@
 #include "GamepadController.h"
 
-void GamepadController::setGamepadProperties(GamepadPtr gamepadProperties)
-{
-    GamepadController::gamepadProperties = gamepadProperties;
+GamepadPtr myGamepads[1];
+
+void onConnectedGamepad(GamepadPtr gamepadProperties) {
+    if (myGamepads[0] == nullptr) {
+        myGamepads[0] = gamepadProperties;
+    }
 }
 
+void onDisconnectedGamepad(GamepadPtr gp) {
+    if (myGamepads[0] == gp) {
+        myGamepads[0] = nullptr;
+    }
+}
+
+void GamepadController::init()
+{
+    BP32.setup(&onConnectedGamepad, &onDisconnectedGamepad);
+    BP32.enableVirtualDevice(false);
+}
 
 void GamepadController::update()
 {
+    BP32.update();
+    gamepadProperties = myGamepads[0];
     if (gamepadProperties && gamepadProperties->isConnected()) {
         tick(D_PAD);
         tick(BUTTONS);

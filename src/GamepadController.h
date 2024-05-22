@@ -9,7 +9,7 @@
 class GamepadController
 {
     public:
-        void setGamepadProperties(GamepadPtr gamepadProperties);
+        void init();
         void update();
 
         bool dPadUpClick();

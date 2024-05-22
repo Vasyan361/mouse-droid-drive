@@ -2,7 +2,6 @@
 
 #include <Arduino.h>
 #include "Config.h"
-#include <Bluepad32.h>
 #include "src/GamepadController.h"
 #include "src/Sounds.h"
 #include "src/Movement.h"
@@ -18,7 +17,6 @@ MX1508 mx1508;
 #endif
 
 
-GamepadPtr myGamepads[1];
 GamepadController controller;
 Sounds sounds;
 Movement movement;
@@ -26,6 +24,7 @@ Movement movement;
 void setup()
 {
     Serial.begin(115200);
+    controller.init();
     sounds.init(&controller);
     #ifdef ESC_DRIVE
         movement.init(&controller, &esc);
@@ -34,15 +33,10 @@ void setup()
     #ifdef MX1508_DRIVE
         movement.init(&controller, &mx1508);
     #endif
-    
-    BP32.setup(&onConnectedGamepad, &onDisconnectedGamepad);
 }
 
 void loop()
 {
-    BP32.update();
-
-    controller.setGamepadProperties(myGamepads[0]);
     controller.update();
 
     #ifndef LOOP_MUSIC
@@ -63,16 +57,4 @@ void loop()
     #endif
 
     vTaskDelay(1);
-}
-
-void onConnectedGamepad(GamepadPtr gamepadProperties) {
-    if (myGamepads[0] == nullptr) {
-        myGamepads[0] = gamepadProperties;
-    }
-}
-
-void onDisconnectedGamepad(GamepadPtr gp) {
-    if (myGamepads[0] == gp) {
-        myGamepads[0] = nullptr;
-    }
 }
