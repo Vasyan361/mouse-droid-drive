@@ -45,7 +45,7 @@ class GamepadController
 
         void blinkGreen();
     private:
-        GamepadPtr gamepadProperties;
+        ControllerPtr controllerPtr;
 
         enum {D_PAD, BUTTONS} buttonTypes;
         enum {D_PAD_UP, D_PAD_DOWN, D_PAD_LEFT, D_PAD_RIGHT} dPadMap;
