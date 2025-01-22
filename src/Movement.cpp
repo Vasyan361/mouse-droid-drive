@@ -13,6 +13,7 @@ void Movement::init(GamepadController* controller, DriveMotorInterface* driveMot
 
 void Movement::run(DriveMotorInterface* driveMotor)
 {
+    Movement::driveMotor = driveMotor;
     handleButtons();
     moveServo(controller->getRightX());
     driveMotor->run(controller->getLeftY());

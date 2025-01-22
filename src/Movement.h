@@ -6,6 +6,7 @@
 #include "DriveMotors/DriveMotorInterface.h"
 #include "../Config.h"
 #include <EEPROM.h>
+#include "DriveMotors/DriveMotorInterface.h"
 
 #define INIT_ADDRESS 0
 #define CONFIG_ADDRESS 1
@@ -25,6 +26,7 @@ class Movement
     private:
         GamepadController* controller;
         Servo steeringServo;
+        DriveMotorInterface* driveMotor;
         void moveServo(int32_t value);
         void handleButtons();
         void readConfigFromEeprom();

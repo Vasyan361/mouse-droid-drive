@@ -7,8 +7,10 @@
 #include "src/Movement.h"
 
 #ifdef ESC_DRIVE
-#include "src/DriveMotors/Esc.h"
-Esc esc;
+// #include "src/DriveMotors/Esc.h"
+// Esc esc;
+#include "src/DriveMotors/SmoothEsc.h"
+SmoothEsc esc;
 #endif
 
 #ifdef MX1508_DRIVE
@@ -18,14 +20,17 @@ MX1508 mx1508;
 
 
 GamepadController controller;
-Sounds sounds;
+// Sounds sounds;
 Movement movement;
 
 void setup()
 {
-    Serial.begin(115200);
+    // #ifdef DEBUG
+        Serial.begin(115200);
+    // #endif
+    
     controller.init();
-    sounds.init(&controller);
+    // sounds.init(&controller);
     #ifdef ESC_DRIVE
         movement.init(&controller, &esc);
     #endif
@@ -39,14 +44,14 @@ void loop()
 {
     controller.update();
 
-    #ifndef LOOP_MUSIC
-        sounds.playSound();
-    #endif
+    // #ifndef LOOP_MUSIC
+    //     sounds.playSound();
+    // #endif
 
-    #ifdef LOOP_MUSIC
-        sounds.loop();
-    #endif
-    sounds.volume();
+    // #ifdef LOOP_MUSIC
+    //     sounds.loop();
+    // #endif
+    // sounds.volume();
 
     #ifdef ESC_DRIVE
         movement.run(&esc);
